@@ -12,8 +12,11 @@ IDX_Summer_26_project/
 ├──  Data_Science_v4.pdf
 ├── data/
 │   └── data_dictionary.md
+|   └── train_cleaned.csv
+|   └── test_cleaned.csv
 ├── notebooks/
 │   └── notebook01_exploration.ipynb
+|   └── 02_preprocessing.ipynb
 └── .gitignore
 ```
 
@@ -37,7 +40,19 @@ The analysis was performed using 24 months of CRMLS Sold property data, restrict
   - BedroomsTotal
   - BathroomsTotalInteger
   - LotSizeArea
- 
+
+ # Week 3
+ - Removed columns containing 100% of missing values
+ - Removed variables where there is more than 50% missing data
+ - Data Type Conversion:
+    - Converted date-related columns to datetime format
+    - converted PostalCode to string type
+    - Boolean columns converted to binary integer
+    - Drop columns with one unique value
+  - Applied one-hot encoding to categorical columns, columns with more than 15 unique variables dropped
+  - Normalization applied to the data to prevent skewing in linear regression and future ML models
+  - Created Test/train split of the data
+  - Exported cleaned CSV's of test/train splits
 
 # Software
 - Python
