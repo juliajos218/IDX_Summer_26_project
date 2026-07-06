@@ -9,8 +9,7 @@ THis repository contains work completed during the internship involving anallysi
 IDX_Summer_26_project/
 │
 ├── README.md
-├── report/
-│   └── Data_Science_v4.pdf
+├──  Data_Science_v4.pdf
 ├── data/
 │   └── data_dictionary.md
 ├── notebooks/
