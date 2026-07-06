@@ -5,20 +5,18 @@ IDX Exchannge Data Science Internship 2026 California Property Close Price Predi
 THis repository contains work completed during the internship involving anallysis of CRMLS data. The objective is to explore the dataset and prepare it for machine learning models that predict residential property sale proces. The tagrget variable is ClosePrice.
 
 # Structure of the Repository
+```text
 IDX_Summer_26_project/
 │
-├── README.md                  # Project overview
+├── README.md
 ├── report/
-│   └── Data_Science_v4.pdf    
-│
+│   └── Data_Science_v4.pdf
 ├── data/
-│   └── data_dictionary.md      # Description of variables
-│
+│   └── data_dictionary.md
 ├── notebooks/
-│   └── notebook01_exploration.ipynb    # Jupyter notebook(s)
-│
-│
-├── .gitignore
+│   └── notebook01_exploration.ipynb
+└── .gitignore
+```
 
 # Dataset
 The analysis was performed using 24 months of CRMLS Sold property data, restricted to single family homes.
