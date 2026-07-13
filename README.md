@@ -54,6 +54,14 @@ The analysis was performed using 24 months of CRMLS Sold property data, restrict
   - Created Test/train split of the data
   - Exported cleaned CSV's of test/train splits
 
+# Week 4
+- Removed the upper 99.5th percentile of properties in ClosePrice due to swewing
+- Hard coded City and PostalCode to be included in one hot encoding due to issues with linear regression
+- Updated the test/train split to include the function format as a variable of X months
+- Created X and Y for the linear regression, removed: CloseDate, ListPrice, OriginalListPrice, LisstingKey, ListingKeyNumeric, DaysOnMarket, and HighSchoolDistrict to prevent data leakages and remove data that would only be known after closing
+- performed linear regression on X and Y using sklearn
+- Evaluated R^2 on the linear regression and presented baseline results
+
 # Software
 - Python
 - pandas
