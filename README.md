@@ -17,6 +17,8 @@ IDX_Summer_26_project/
 ├── notebooks/
 │   └── notebook01_exploration.ipynb
 |   └── 02_preprocessing.ipynb
+|   └── 03_baseline_model.ipynb
+|   └── 04_model_comparison.ipynb
 └── .gitignore
 ```
 
@@ -61,6 +63,14 @@ The analysis was performed using 24 months of CRMLS Sold property data, restrict
 - Created X and Y for the linear regression, removed: CloseDate, ListPrice, OriginalListPrice, LisstingKey, ListingKeyNumeric, DaysOnMarket, and HighSchoolDistrict to prevent data leakages and remove data that would only be known after closing
 - performed linear regression on X and Y using sklearn
 - Evaluated R^2 on the linear regression and presented baseline results
+
+# Week 5
+- Completed Random Forest and Decision Tree fitting to the dataset
+- Compared the metrics of Random Forest, Decision Tree, and Linear Regression
+- Made a plot of the three methods referenced above
+- Found the top 20 most important features out of the data
+- Updated data test/train split to 30 months to match group goals
+- Created a function to return metrics:R^2, RMSE, MAE, MAPE, and MdAPE
 
 # Software
 - Python
