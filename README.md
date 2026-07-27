@@ -19,6 +19,7 @@ IDX_Summer_26_project/
 |   └── 02_preprocessing.ipynb
 |   └── 03_baseline_model.ipynb
 |   └── 04_model_comparison.ipynb
+|   └── 04_model_comparison_updated.ipynb
 └── .gitignore
 ```
 
@@ -71,6 +72,17 @@ The analysis was performed using 24 months of CRMLS Sold property data, restrict
 - Found the top 20 most important features out of the data
 - Updated data test/train split to 30 months to match group goals
 - Created a function to return metrics:R^2, RMSE, MAE, MAPE, and MdAPE
+
+# Week 6
+This week focuses on expanding the feature set used in the baseline models through two types of feature engineering: derived property features and a geographic school district layer.
+- New Derived Featrues:
+  - BedBathRatio - ratio of bedrooms to bathrooms
+  - PropertyAge - age of the property at the time of sale (2026 minus Yearbuilt)
+  - AreaPerBedroom - living area divided by number of bedrooms
+- School District Layer:
+  - California Unified School District boundaries were downloaded and spatially joined to each property using its latitude and longitude coordinates.
+  - DistrictName was label encoded into DistictEncoded
+- Results: the random forest R^2 was improved from 0.8806 to 0.8818 (previous to hyper parameter tuning)
 
 # Software
 - Python
