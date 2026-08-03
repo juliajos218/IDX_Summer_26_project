@@ -20,6 +20,7 @@ IDX_Summer_26_project/
 |   └── 03_baseline_model.ipynb
 |   └── 04_model_comparison.ipynb
 |   └── 04_model_comparison_updated.ipynb
+|   └── 05_advanced_models.ipynb
 └── .gitignore
 ```
 
@@ -84,11 +85,24 @@ This week focuses on expanding the feature set used in the baseline models throu
   - DistrictName was label encoded into DistictEncoded
 - Results: the random forest R^2 was improved from 0.8806 to 0.8818 (previous to hyper parameter tuning)
 
+# Week 7
+- Implemented LIghtGBM and XGBoost gradient boosting models as an advanced alternative to Random Forest
+- Performed light hyperparameter tuning on both models including n_estimators, max_depth, learning_rate, num_leaves, subsample, and colsample_bytree
+- Introduced a three way split of data to introduce a validation set
+    - Training set: 30 months of historical data
+    - Validation set: second most recent month (April 2026)
+    - Test set: most recent month (June 2026) used only once for final evaluation
+- Used early stopping on the validation set to determine optimal number of trees without overfitting
+- Removed non-California properties from training data
+- Final model comparison across all weeks documented in 05_advanced_models.ipynb
+
 # Software
 - Python
 - pandas
 - numpy
 - matplotlib
+- lightgbm
+- xbgoost
 - seaborn
 - scikitlearn
 - Jupyter Lab/Jupyter Notebook
