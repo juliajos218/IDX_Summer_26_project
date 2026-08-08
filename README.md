@@ -21,6 +21,7 @@ IDX_Summer_26_project/
 |   └── 04_model_comparison.ipynb
 |   └── 04_model_comparison_updated.ipynb
 |   └── 05_advanced_models.ipynb
+|   └── 06_evaluation.ipynb
 └── .gitignore
 ```
 
@@ -95,6 +96,21 @@ This week focuses on expanding the feature set used in the baseline models throu
 - Used early stopping on the validation set to determine optimal number of trees without overfitting
 - Removed non-California properties from training data
 - Final model comparison across all weeks documented in 05_advanced_models.ipynb
+
+# Week 8
+- Created a dedicated evaluation notebook (06_evaluation.ipynb) to analyze model performance beyond top-line metrics
+- Computed full suite of evaluation metrics: R², RMSE, MAE, MAPE, and MdAPE on the final XGBoost model
+- Analyzed model performance by price band using California market-appropriate segments:
+  - Entry (<$500k), Mid ($500k-$750k), Upper Mid ($750k-$1M), Luxury ($1M-$2M), Ultra Luxury (>$2M)
+  - Model performs best on mid-market properties (MdAPE 6.29-6.58%) and struggles most on ultra luxury (MdAPE 11.25%)
+- Analyzed model performance by unified school district to identify geographic areas of underperformance
+- Generated evaluation plots including:
+  - MdAPE by price band bar chart
+  - Test set distribution by price band
+  - Predicted vs actual scatter plot colored by prediction error
+  - Over/underestimate breakdown by price band
+- Exported metrics_summary.csv containing all model results across Weeks 4-7
+- Documented key model limitations including scaled coordinates, ultra luxury underperformance, and market condition sensitivity
 
 # Software
 - Python
