@@ -15,7 +15,7 @@ IDX_Summer_26_project/
 |   └── train_cleaned.csv
 |   └── test_cleaned.csv
 ├── notebooks/
-│   └── notebook01_exploration.ipynb
+│   └── 01_exploration.ipynb
 |   └── 02_preprocessing.ipynb
 |   └── 03_baseline_model.ipynb
 |   └── 04_model_comparison.ipynb
