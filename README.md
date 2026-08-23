@@ -2,7 +2,7 @@
 IDX Exchannge Data Science Internship 2026 California Property Close Price Prediction Model
 
 # Project Overview
-THis repository contains work completed during the internship involving anallysis of CRMLS data. The objective is to explore the dataset and prepare it for machine learning models that predict residential property sale proces. The tagrget variable is ClosePrice.
+This repository contains work completed during the internship involving anallysis of CRMLS data. The objective is to explore the dataset and prepare it for machine learning models that predict residential property sale proces. The tagrget variable is ClosePrice.
 
 # Structure of the Repository
 ```text
@@ -27,7 +27,94 @@ IDX_Summer_26_project/
 ```
 
 # Dataset
-The analysis was performed using 24 months of CRMLS Sold property data, restricted to single family homes.
+- **Source:** California Regional Multiple Listing Service (CRMLS) accessed via FTP through IDX Exchange
+- **Coverage:** January 2022 – June 2026 (31 monthly CSV files)
+- **Size:** 400,000+ raw records, filtered to 328,000+ single-family residential properties
+- **Target Variable:** ClosePrice (residential sale price in USD)
+- **Filter:** PropertyType = Residential, PropertySubType = SingleFamilyResidence
+- **Note:** Raw data files are not tracked in this repository due to size. Contact IDX Exchange for data access.
+
+# Preprocessing Steps
+The following steps were applied in "02_preprocessing.ipynb":
+1. **Filtering** — Restricted to single-family residential properties
+2. **Missing Value Handling** — Removed columns with 100% missing values, removed columns with more than 50% missing data, imputed remaining numeric columns with median and categorical columns with mode
+3. **Data Type Conversion** — Converted date columns to datetime, PostalCode to string, boolean columns to binary integer, and integer-like features to Int64
+4. **Outlier Removal** — Removed logical impossibilities (zero square footage, impossible bedroom counts), removed duplicate transactions, and applied price/sqft filter to catch data entry errors
+5. **Outlier Thresholds** — Computed from training data only (0.5th and 99.5th percentile) and applied as frozen cutoffs to both train and test sets to prevent leakage
+6. **Encoding** — Applied one-hot encoding to low-cardinality categorical columns, label encoded school district names
+7. **Feature Engineering** — Added BedBathRatio, PropertyAge, AreaPerBedroom, and school district geographic layer via spatial join with California Unified School District boundaries using GeoPandas
+8. **Normalization** — Applied StandardScaler to continuous numeric features
+9. **Train/Validation/Test Split** — Chronological time-based split: training (30 months), validation (second most recent month), test (most recent month — June 2026)
+
+# Model Descriptions
+Five model types were trained and compared across Weeks 4-7:
+- **Linear Regression** (`03_baseline_model.ipynb`) — Baseline model assuming linear relationships between features and price. Fast and interpretable but limited in capturing complex pricing patterns.
+- **Decision Tree** (`04_model_comparison.ipynb`) — Captures non-linear relationships by splitting data into branches. Prone to overfitting; controlled via max_depth parameter.
+- **Random Forest** (`04_model_comparison.ipynb`) — Ensemble of 100 decision trees trained on random subsets of data and features. Much more robust to overfitting than a single tree. Best Random Forest MdAPE: 7.95%.
+- **LightGBM** (`05_advanced_models.ipynb`) — Gradient boosting model optimized for speed and large datasets. Tuned using manual hyperparameter search with early stopping on validation set. Best LightGBM MdAPE: 8.21%.
+- **XGBoost** (`05_advanced_models.ipynb`) — Gradient boosting model with sequential tree building. Final model selected after systematic hyperparameter tuning across depth, learning rate, subsample, and colsample parameters using chronological validation set for early stopping.
+
+# Best Evaluation Results
+Final model: **XGBoost** (max_depth=11, learning_rate=0.05, subsample=0.9, colsample_bytree=0.8)
+
+| Model | R² | RMSE | MAE | MAPE | MdAPE |
+|---|---|---|---|---|---|
+| Linear Regression | 0.4787 | $653,574 | $436,431 | 43.73% | 30.42% |
+| Decision Tree | 0.7814 | $423,219 | $242,696 | 19.73% | 13.87% |
+| Random Forest | 0.8806 | $312,748 | $167,504 | 13.20% | 8.95% |
+| Random Forest (engineered) | 0.8920 | $297,504 | $154,714 | 11.98% | 7.95% |
+| LightGBM (tuned) | 0.9078 | $274,801 | $148,945 | 11.84% | 8.21% |
+| XGBoost (tuned) | 0.9070 | $279,826 | $147,190 | 11.19% | **7.66%** |
+
+**Performance by Price Band (XGBoost):**
+- Mid ($500k–$750k): MdAPE 6.29%
+- Upper Mid ($750k–$1M): MdAPE 6.58%
+- Entry (<$500k): MdAPE 8.00%
+- Luxury ($1M–$2M): MdAPE 8.62%
+- Ultra Luxury (>$2M): MdAPE 11.25%
+
+# Instructions for Rerunning the Project
+Run the notebooks in order from your terminal or Jupyter Lab:
+
+1. **Download data** from CRMLS via FTP and save monthly CSV files to your local data folder
+2. **Run `notebook01_exploration.ipynb`** — exploratory data analysis and data dictionary
+3. **Run `02_preprocessing.ipynb`** — data cleaning, feature engineering, and train/val/test split. Exports `train_enriched.csv` and `test_enriched.csv`
+4. **Run `03_baseline_model.ipynb`** — trains and evaluates Linear Regression baseline
+5. **Run `04_model_comparison.ipynb`** — trains Decision Tree and Random Forest, compares all models
+6. **Run `05_advanced_models.ipynb`** — trains LightGBM and XGBoost with hyperparameter tuning, saves final model
+7. **Run `06_evaluation.ipynb`** — full evaluation including price band and geographic analysis, exports metrics_summary.csv
+
+**Requirements:**
+```bash
+pip install pandas numpy matplotlib seaborn scikit-learn lightgbm xgboost geopandas streamlit joblib
+```
+
+**File paths:** Update the `filepath` variable at the top of each notebook to point to your local data directory.
+# Instructions for Launching the Streamlit Application
+The app requires the trained model files saved during Week 9. If not already saved, run `05_advanced_models.ipynb` through to the joblib export cells first.
+
+**Install Streamlit if not already installed:**
+```bash
+pip install streamlit
+```
+
+**Navigate to the project folder and run:**
+```bash
+cd path/to/IDX_summer_internship
+streamlit run app.py
+```
+
+The app will open automatically in your browser at `http://localhost:8501`.
+
+**Inputs:**
+- Living Area (sq ft)
+- Bedrooms
+- Bathrooms
+- Lot Size (sq ft)
+- City (used for geographic coordinates)
+
+**Output:** Estimated home sale price with a confidence range based on model MdAPE of 7.66%.
+
 
 # Week 1
 - Created github
@@ -123,13 +210,20 @@ This week focuses on expanding the feature set used in the baseline models throu
 - Displays estimated home value, property summary, and a confidence range based on the model MdAPE of 7.66%
 - App runs locally via `streamlit run app.py`
 
+# Week 10
+- Updated README.md with full project documentation including dataset source, preprocessing steps, model descriptions, best evaluation results, and instructions for rerunning the project and launching the Streamlit application
+
+
 # Software
 - Python
 - pandas
-- numpy
+- NumPy
 - matplotlib
-- lightgbm
-- xbgoost
 - seaborn
-- scikitlearn
-- Jupyter Lab/Jupyter Notebook
+- scikit-learn
+- LightGBM
+- XGBoost
+- GeoPandas
+- Streamlit
+- joblib
+- Jupyter Lab / Jupyter Notebook
