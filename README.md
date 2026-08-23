@@ -9,7 +9,8 @@ THis repository contains work completed during the internship involving anallysi
 IDX_Summer_26_project/
 │
 ├── README.md
-├──  Data_Science_v4.pdf
+├── Data_Science_v4.pdf
+├── app.py
 ├── data/
 │   └── data_dictionary.md
 |   └── train_cleaned.csv
@@ -111,6 +112,16 @@ This week focuses on expanding the feature set used in the baseline models throu
   - Over/underestimate breakdown by price band
 - Exported metrics_summary.csv containing all model results across Weeks 4-7
 - Documented key model limitations including scaled coordinates, ultra luxury underperformance, and market condition sensitivity
+
+# Week 9
+- Built an interactive Streamlit web application (`app.py`) for real-time California home price prediction
+- App accepts four user inputs as specified: Living Area (sq ft), Bedrooms, Bathrooms, and Lot Size (sq ft)
+- Added city dropdown to incorporate geographic location into predictions via scaled latitude and longitude coordinates
+- Loaded trained XGBoost model, feature names, and feature medians using joblib
+- All features not provided by the user are set to their training data median values to ensure realistic predictions
+- Engineered features (BedBathRatio, AreaPerBedroom) are computed directly from user inputs at prediction time
+- Displays estimated home value, property summary, and a confidence range based on the model MdAPE of 7.66%
+- App runs locally via `streamlit run app.py`
 
 # Software
 - Python
