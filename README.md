@@ -20,7 +20,6 @@ IDX_Summer_26_project/
 |   └── 02_preprocessing.ipynb
 |   └── 03_baseline_model.ipynb
 |   └── 04_model_comparison.ipynb
-|   └── 04_model_comparison_updated.ipynb
 |   └── 05_advanced_models.ipynb
 |   └── 06_evaluation.ipynb
 └── .gitignore
